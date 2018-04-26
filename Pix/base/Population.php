@@ -57,6 +57,7 @@ class Population {
     public function start() {
         $startTime = microtime(1);
         for ($x = 0; $x < Config::GenerationMaX; $x++) {
+            echo $this->generation . PHP_EOL;
             $this->generation++;
             $this->killScp(); //杀死原种群中适应度最差的几个，补充上孩子
             $children = $this->birthChild(); //结合生出孩子
@@ -153,9 +154,8 @@ class Population {
 //创建图像画布  
         $image = imagecreatetruecolor($width, $height);
 //设置颜色  
-        $gray = imagecolorallocate($image, 255, 255, 255);
         $red = imagecolorallocate($image, 255, 0, 0);
-        imagefill($image, 0, 0, $gray);
+        imagefill($image, 0, 0, imagecolorallocate($image, 255, 255, 255));
         imagestring($image, 1, $width - 80, $height - 30, round($time, 4) . 's', $red); //画时长
         imagestring($image, 1, $width - 80, $height - 20, round($mem, 4) . 'Mb', $red); //画内存
 
@@ -175,6 +175,7 @@ class Population {
 //            imagestring($image, 1, $i * $oneW, $height - ($fitness[$i] - $fitMin) / $l * $height, round($fitness[$i], 4), $red); //画适应度数字
         }
 
+        imagepng($image, '适应度曲线.png'); //生成图片
 //设置header  
         header('Content-Type:image/png');
 //输出图片格式  

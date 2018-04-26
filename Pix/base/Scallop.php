@@ -13,7 +13,7 @@ use Ga\Pix\Config;
  */
 class Scallop {
 
-    public $pixs = array(); //扇贝上的三角形
+    public $pixs = array(); //扇贝上的像素点
     public $fitness; //当前扇贝的适应度
     public $generation; //扇贝第几代
     public $scpName; //扇贝的名字，每一个扇贝都有唯一的名字，用数字标识
