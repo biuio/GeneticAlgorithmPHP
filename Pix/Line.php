@@ -22,12 +22,11 @@ class Line {
     public $baseImgPixs; //基础对比图
     public $baseImgWidth; //基础图宽度
     public $baseImgHeight; //基础图高度
-    public $pop;
-    public $Generation = 1;
+    public $pop; //种群
 
     public function __construct() {
         $this->getBaseImgPixs();
-        $this->pop = new Population($this->Generation);
+        $this->pop = new Population();
         $this->pop->setBaseImg($this->baseImgPixs, $this->baseImgWidth, $this->baseImgHeight);
         $this->pop->initPop();
         $this->pop->start();
