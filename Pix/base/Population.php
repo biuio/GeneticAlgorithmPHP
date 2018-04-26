@@ -57,13 +57,12 @@ class Population {
     public function start() {
         $startTime = microtime(1);
         for ($x = 0; $x < Config::GenerationMaX; $x++) {
-            echo $this->generation . PHP_EOL;
             $this->generation++;
             $this->killScp(); //杀死原种群中适应度最差的几个，补充上孩子
             $children = $this->birthChild(); //结合生出孩子
             $this->addToScp($children);
             $this->calFitness(); //计算适应度总和
-            if ($this->generation % Config::drawByCnt == 0) {
+            if ($this->generation == 2 || $this->generation % Config::drawByCnt == 0) {
                 foreach ($this->scallops as $scp) {
                     $scp->drawScp();
                 }
