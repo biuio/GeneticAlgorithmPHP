@@ -2,11 +2,14 @@
 
 namespace Ga\Pix\base;
 
-use Ga\Pix\SysConst;
+use Ga\Pix\Config;
 
 /**
- * 扇贝
- * 
+ * 扇贝，一个扇贝包含多个颜色点，这些颜色点属于扇贝的基因
+ * @author Linko
+ * @email 18716463@qq.com
+ * @link https://github.com/kk1987n/GeneticAlgorithmPHP.git
+ * @date 2018/04/24
  */
 class Scallop {
 
@@ -24,7 +27,7 @@ class Scallop {
         $this->scpName = $scpName;
         $this->baseImgWidth = $baseImgWidth;
         $this->baseImgHeight = $baseImgHeight;
-        $this->variationCnt = SysConst::variationCnt;
+        $this->variationCnt = Config::variationCnt;
         $this->initScp();
     }
 
@@ -133,7 +136,7 @@ class Scallop {
                 imagesetpixel($cavas, $x, $y, imagecolorallocatealpha($cavas, $this->pixs[$x][$y]->r, $this->pixs[$x][$y]->g, $this->pixs[$x][$y]->b, $this->pixs[$x][$y]->a)); //画三角形
             }
         }
-        $toPath = SysConst::FamilyImgPath . '/' . $this->generation;
+        $toPath = Config::FamilyImgPath . '/' . $this->generation;
 //        if (!file_exists($toPath)) {
 //            mkdir("$toPath", 0777, true);
 //        }

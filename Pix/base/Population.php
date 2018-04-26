@@ -3,12 +3,16 @@
 namespace Ga\Pix\base;
 
 use Ga\Pix\base\Scallop;
-use Ga\Pix\SysConst;
+use Ga\Pix\Config;
 
 /**
- * 种群
+ * 这是一个种群<br>
  * 这是1个种群，种群内包含多个扇贝
- * @author Administrator
+ * 
+ * @author Linko
+ * @email 18716463@qq.com
+ * @link https://github.com/kk1987n/GeneticAlgorithmPHP.git
+ * @date 2018/04/24
  */
 class Population {
 
@@ -18,33 +22,21 @@ class Population {
     public $scallops = array(); //扇贝
     public $scpCnt; //种群内扇贝的数量
     public $chdCnt; //每次迭代产生的孩子数量
-    public $generation = 1; //当前是第几代
-    public $scpName = 1; //扇贝的名字，每一个扇贝都有唯一的名字，用数字标识
+    public $generation; //当前是第几代
+    public $scpName = 1; //创建的扇贝的名字，每一个扇贝都有唯一的名字，用数字标识
     public $fitness = array(); //适应度-用来画曲线
 
-    public function __construct($Generation) {
+    public function __construct($Generation = 1) {
         $this->generation = $Generation;
-        $this->scpCnt = SysConst::FamilyCnt;
-        $this->chdCnt = SysConst::ChdCnt;
-        $this->getBaseImgPixs();
+        $this->scpCnt = Config::FamilyCnt;
+        $this->chdCnt = Config::ChdCnt;
     }
 
-    /**
-     * 获取基础图片信息
-     * 每个扇贝都需要这些信息
-     */
-    public function getBaseImgPixs() {
-        $img = getimagesize(SysConst::BaseImg);
-        $this->baseImgWidth = $img[0];
-        $this->baseImgHeight = $img[1];
-        $baseImg = imagecreatefrompng(SysConst::BaseImg);
-        for ($x = 0; $x < $this->baseImgHeight; $x++) {
-            for ($y = 0; $y < $this->baseImgWidth; $y++) {
-                $basePix = imagecolorsforindex($baseImg, imagecolorat($baseImg, $x, $y)); // 取得一点的颜色
-                $this->baseImgPixs[$x][$y] = new Color(array($basePix['red'], $basePix['green'], $basePix['blue'], $basePix['alpha']));
-            }
-        }
-        imagedestroy($baseImg);
+    public function setBaseImg($baseImgPixs, $baseImgWidth, $baseImgHeight) {
+        $this->baseImgPixs = $baseImgPixs;
+        $this->baseImgWidth = $baseImgWidth;
+        $this->baseImgHeight = $baseImgHeight;
+        return true;
     }
 
     /**
@@ -64,13 +56,13 @@ class Population {
      */
     public function start() {
         $startTime = microtime(1);
-        for ($x = 0; $x < SysConst::GenerationMaX; $x++) {
+        for ($x = 0; $x < Config::GenerationMaX; $x++) {
             $this->generation++;
             $this->killScp(); //杀死原种群中适应度最差的几个，补充上孩子
             $children = $this->birthChild(); //结合生出孩子
             $this->addToScp($children);
             $this->calFitness(); //计算适应度总和
-            if ($this->generation % SysConst::drawByCnt == 0) {
+            if ($this->generation % Config::drawByCnt == 0) {
                 foreach ($this->scallops as $scp) {
                     $scp->drawScp();
                 }

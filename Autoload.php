@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * 属于PHP类加载机制的部分，方便PHP加载各个类，与GA算法关系不大
+ */
 spl_autoload_register('autoload');
 
 /**
